@@ -5,7 +5,8 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const APIURL = "https://voting-app-w949.onrender.com";
+  const APIURL = import.meta.env.VITE_API_URL;
+
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
@@ -73,7 +74,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, token, login, signup, logout , APIURL}}>
+    <AuthContext.Provider
+      value={{ user, token, login, signup, logout, APIURL }}
+    >
       {children}
     </AuthContext.Provider>
   );
