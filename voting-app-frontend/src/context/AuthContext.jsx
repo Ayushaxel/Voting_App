@@ -5,7 +5,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const APIURL = "http://localhost:3000";
+  const APIURL = "https://voting-app-w949.onrender.com";
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);

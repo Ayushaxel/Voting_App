@@ -8,7 +8,7 @@ import Profile from "./pages/Profile";
 import Home from "./pages/Home";
 import ProtectedRoute from "./ProtectedRoute";
 import ChangePassword from "./pages/ChangePassword";
-import VoteCounts from "./pages/voteCount";
+import VoteCount from "./pages/VoteCount";
 
 const Layout = () => (
   <>
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
       { path: "/candidates", element: <Candidates /> },
       { path: "/signup", element: <Signup /> },
       { path: "/login", element: <Login /> },
-      { path: "/vote-counts", element: <VoteCounts/> },
+      { path: "/vote-counts", element: <VoteCount/> },
       { path: "/admin", element: (<ProtectedRoute> <AdminDashboard /></ProtectedRoute>) },
       { path: "/profile", element: (<ProtectedRoute><Profile /></ProtectedRoute>) },
       { path: "/change-password", element: (<ProtectedRoute><ChangePassword/></ProtectedRoute>) },
