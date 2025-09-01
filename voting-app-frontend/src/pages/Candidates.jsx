@@ -1,45 +1,47 @@
 import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { data, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Candidates = () => {
   const [candidateData, setCandidates] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { token, user ,APIURL} = useContext(AuthContext);
+  const { token, user, APIURL } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  // Fetch candidates
   useEffect(() => {
     const fetchCandidates = async () => {
       try {
         const res = await fetch(`${APIURL}/candidate`);
         if (!res.ok) throw new Error("Failed to fetch candidates");
         const data = await res.json();
-        console.log("API Response:", data);
+        // console.log("API Response:", data);
         setCandidates(data.candidates);
       } catch (err) {
         setError(err.message);
+      } finally {
+        setLoading(false);
       }
     };
     fetchCandidates();
-  }, []);
+  }, [APIURL]);
 
+  // Handle voting
   const handleVote = async (candidateId) => {
     try {
-      const res = await fetch(
-        `${APIURL}/candidate/vote/${candidateId}`,
-        {
-          method: "POST",
-          content: "application/json",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      if (!res.ok) {
-        const data = await res.json();
-        throw new Error(data.message || "Failed to cast vote");
-      }
+      const res = await fetch(`${APIURL}/candidate/vote/${candidateId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
       const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Failed to cast vote");
+
       alert(data.message);
       navigate("/vote-counts");
     } catch (error) {
@@ -47,6 +49,7 @@ const Candidates = () => {
     }
   };
 
+  // Error state
   if (error) {
     return <p className="text-red-500 text-center">Error: {error}</p>;
   }
@@ -57,10 +60,12 @@ const Candidates = () => {
         🗳️ Vote for Your Candidate
       </h1>
 
-      {candidateData.length === 0 ? (
+      {loading ? (
+        <p className="text-center">Loading... Please wait</p>
+      ) : candidateData.length === 0 ? (
         <p className="text-center">No candidates found</p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 ">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {candidateData.map((candidate) => (
             <div
               key={candidate._id}
@@ -68,24 +73,31 @@ const Candidates = () => {
             >
               <h2 className="text-xl font-semibold">{candidate.name}</h2>
               <p className="text-gray-600">{candidate.party}</p>
+
               {token ? (
-                <button
-                  onClick={() => handleVote(candidate._id)}
-                  disabled={user?.isVoted}
-                  className={`mt-3 px-4 py-2 bg-blue-500 text-white rounded ${user?.isVoted ? "opacity-50 cursor-not-allowed " : "hover:bg-blue-600"}`}
-                >
-                  Vote
-                </button>
-                 
-                
+                <>
+                  <button
+                    onClick={() => handleVote(candidate._id)}
+                    disabled={user?.isVoted}
+                    className={`mt-3 px-4 py-2 bg-blue-500 text-white rounded ${
+                      user?.isVoted
+                        ? "opacity-50 cursor-not-allowed"
+                        : "hover:bg-blue-600"
+                    }`}
+                  >
+                    Vote
+                  </button>
+                  {user?.isVoted && (
+                    <p className="text-sm text-red-500 mt-2">
+                      You have already voted
+                    </p>
+                  )}
+                </>
               ) : (
                 <p className="text-sm text-red-500 mt-2">
                   Please login to vote
                 </p>
               )}
-               <p className="text-sm text-red-500 mt-2">
-                {user?.isVoted && "You have already voted"}
-                </p>
             </div>
           ))}
         </div>

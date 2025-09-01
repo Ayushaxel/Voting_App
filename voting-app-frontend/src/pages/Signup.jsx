@@ -14,6 +14,7 @@ const Signup = () => {
     password: "",
     role: "voter",
   });
+  
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
@@ -117,6 +118,7 @@ const Signup = () => {
               <option value="admin">Admin</option>
             </select>
           </div>
+     
           {error && <p className="text-red-500 text-sm">{error.message}</p>}
 
           <button

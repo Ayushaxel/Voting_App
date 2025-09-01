@@ -3,8 +3,11 @@ import { AuthContext } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
-  const { user, loading, logout, token } = useContext(AuthContext);
-  console.log(user);
+  const { user, loading, logout,fetchUser, token } = useContext(AuthContext);
+  // console.log(user);
+   useEffect(() => {
+    fetchUser();
+  }, []); 
   const navigate = useNavigate();
 
   return (

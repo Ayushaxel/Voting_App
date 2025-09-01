@@ -5,11 +5,11 @@ const cors = require("cors");
 const app= express();
 const bodyParser = require('body-parser')
 app.use(cors());
-app.use(cors({
-  origin: "https://voting-app-1-7qja.onrender.com",  // your frontend render URL
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true
-}));
+// app.use(cors({
+//   origin: "https://voting-app-1-7qja.onrender.com",  // your frontend render URL
+//   methods: ["GET", "POST", "PUT", "DELETE"],
+//   credentials: true
+// }));
 
 app.use(bodyParser.json());
 const PORT=process.env.PORT ||3000;

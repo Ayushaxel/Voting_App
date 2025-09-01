@@ -38,6 +38,16 @@ const userSchema = new mongoose.Schema({
     isVoted:{
         type:Boolean,
         default:false
+    },
+    resetOtp:{
+        type:String
+    },
+    resetOtpExpiry:{
+        type:Date
+    },
+    isVerifiedOtp:{
+        type:Boolean,
+        default:false
     }
 })
 

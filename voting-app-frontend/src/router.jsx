@@ -9,6 +9,7 @@ import Home from "./pages/Home";
 import ProtectedRoute from "./ProtectedRoute";
 import ChangePassword from "./pages/ChangePassword";
 import VoteCount from "./pages/VoteCount";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const Layout = () => (
   <>
@@ -26,11 +27,12 @@ const router = createBrowserRouter([
       { path: "/candidates", element: <Candidates /> },
       { path: "/signup", element: <Signup /> },
       { path: "/login", element: <Login /> },
+      { path: "/forgot-password", element: <ForgotPassword/>},
       { path: "/vote-counts", element: <VoteCount/> },
-      { path: "/admin", element: (<ProtectedRoute> <AdminDashboard /></ProtectedRoute>) },
+      { path: "/admin",  element: (<ProtectedRoute> <AdminDashboard /></ProtectedRoute>) },
       { path: "/profile", element: (<ProtectedRoute><Profile /></ProtectedRoute>) },
       { path: "/change-password", element: (<ProtectedRoute><ChangePassword/></ProtectedRoute>) },
-
+     
     ],
   },
 ]);

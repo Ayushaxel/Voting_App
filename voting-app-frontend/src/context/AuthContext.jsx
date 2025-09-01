@@ -1,18 +1,19 @@
 import { createContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useFetcher, useNavigate } from "react-router-dom";
 
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
-  const APIURL = import.meta.env.VITE_API_URL;
+  // const APIURL = import.meta.env.VITE_API_URL;
+  const APIURL="http://localhost:3000" // local url of mongoDb
 
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
     setUser(null);
   };
-  useEffect(() => {
+  
     const fetchUser = async () => {
       if (token) {
         try {
@@ -27,21 +28,23 @@ export const AuthProvider = ({ children }) => {
         }
       }
     };
-    fetchUser();
+    useEffect(() => {
+    if (token) fetchUser();
   }, [token]);
+  
 
   const login = async (aadharCardNumber, password) => {
     try {
       const res = await fetch(`${APIURL}/user/login`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+          "Content-Type": "application/json"
         },
         body: JSON.stringify({ aadharCardNumber, password }),
       });
 
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
 
       if (!res.ok) {
         throw new Error(data.message || "Invalid credentials");
@@ -75,7 +78,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, login, signup, logout, APIURL }}
+      value={{ user, token, login, signup, logout, APIURL,fetchUser }}
     >
       {children}
     </AuthContext.Provider>
