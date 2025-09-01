@@ -6,7 +6,7 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem("token") || null);
   // const APIURL = import.meta.env.VITE_API_URL;
-  const APIURL="http://localhost:3000" // local url of mongoDb
+  const APIURL="https://voting-app-server-07oo.onrender.com" // local url of mongoDb
 
   const logout = () => {
     localStorage.removeItem("token");
