@@ -1,21 +1,20 @@
 # ===================
 # Node Modules
 # ===================
-/node_modules
-client/voting_frontend/node_modules
-server/node_modules
+/voting-app-frontend/node_modules
+/server/node_modules
 
 # ===================
 # Build Outputs
 # ===================
-client/voting_frontend/build
-server/dist
+/voting-app-frontend/build
+/server/dist
 
 # ===================
 # Environment Variables
 # ===================
-client/voting_frontend/.env
-server/.env
+/voting-app-frontend/.env
+/server/.env
 
 # ===================
 # Logs
@@ -25,11 +24,6 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-
-# ===================
-# Planning / Notes
-# ===================
-planning.txt
 
 # ===================
 # Editor / OS Files
